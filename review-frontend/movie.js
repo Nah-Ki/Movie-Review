@@ -3,12 +3,25 @@ const movieId = url.searchParams.get("id")
 const movieTitle = url.searchParams.get("title")
 
 const APILINK = 'http://localhost:8000/api/v1/reviews/';
-
+const TMDBAPI = `https://api.themoviedb.org/3/movie/${movieId}?api_key=b0d86c7e479ae6e66b1d9e00dd61cc74`;
 
 const main = document.getElementById("section");
 const title = document.getElementById("title");
 
 title.innerText = movieTitle;
+
+fetch(TMDBAPI)
+  .then(res => res.json())
+  .then(function(movie) {
+    const movieDetails = document.createElement('div');
+    movieDetails.innerHTML = `
+      <h2>${movieTitle}</h2>
+      <p><strong>Release Date:</strong> ${movie.release_date}</p>
+      <p><strong>Description:</strong> ${movie.overview}</p>
+      <p><strong>IMDb Rating:</strong> ${movie.vote_average}</p>
+    `;
+    main.appendChild(movieDetails);
+  });
 
 const div_new = document.createElement('div');
 div_new.innerHTML = `
@@ -44,34 +57,17 @@ function returnReviews(url){
               <div class="card" id="${review._id}">
                 <p><strong>Review: </strong>${review.review}</p>
                 <p><strong>User: </strong>${review.user}</p>
-                <p><a href="#"onclick="editReview('${review._id}','${review.review}', '${review.user}')">✏️</a> <a href="#" onclick="deleteReview('${review._id}')">🗑</a></p>
+                <p><strong>Release Date: </strong>${review.releaseDate}</p>
+                <p><strong>Description: </strong>${review.description}</p>
+                <p><strong>IMDb Rating: </strong>${review.imdbRating}</p>
+                <p><a href="#" onclick="editReview('${review._id}','${review.review}', '${review.user}')">✏️</a> <a href="#" onclick="deleteReview('${review._id}')">🗑</a></p>
               </div>
             </div>
           </div>
         `
-
       main.appendChild(div_card);
     });
   });
-}
-
-function editReview(id, review, user) {
-
-  const element = document.getElementById(id);
-  const reviewInputId = "review" + id
-  const userInputId = "user" + id
-
-  element.innerHTML = `
-              <p><strong>Review: </strong>
-                <input type="text" id="${reviewInputId}" value="${review}">
-              </p>
-              <p><strong>User: </strong>
-                <input type="text" id="${userInputId}" value="${user}">
-              </p>
-              <p><a href="#" onclick="saveReview('${reviewInputId}', '${userInputId}', '${id}',)">💾</a>
-              </p>
-
-  `
 }
 
 function saveReview(reviewInputId, userInputId, id="") {
@@ -105,7 +101,6 @@ function saveReview(reviewInputId, userInputId, id="") {
         location.reload();
       });
   }
-  
 }
 
 function deleteReview(id) {

@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "firefox",
+            "request": "launch",
+            "name": "Launch firefox against localhost",
+            "url": "http://localhost:8000",  
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}

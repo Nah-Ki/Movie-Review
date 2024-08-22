@@ -4,13 +4,14 @@ const SEARCHAPI = "https://api.themoviedb.org/3/search/movie?&api_key=b0d86c7e47
 
 
 const main = document.getElementById("section");
-  const form = document.getElementById("form");
-  const search = document.getElementById("query");
+const form = document.getElementById("form");
+const search = document.getElementById("query");
 
-returnMovies(APILINK)
-  function returnMovies(url){
-    fetch(url).then(res => res.json())
-    .then(function(data){
+returnMovies(APILINK);
+
+function returnMovies(url){
+  fetch(url).then(res => res.json())
+  .then(function(data){
     console.log(data.results);
     data.results.forEach(element => {
         const div_card = document.createElement('div');
@@ -44,7 +45,7 @@ returnMovies(APILINK)
         main.appendChild(div_row);
     });
   });
-  }
+}
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -54,6 +55,6 @@ form.addEventListener("submit", (e) => {
 
   if (searchItem) {
     returnMovies(SEARCHAPI + searchItem);
-      search.value = "";
+    search.value = "";
   }
 });
