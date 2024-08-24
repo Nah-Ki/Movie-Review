@@ -17,7 +17,7 @@ export default class ReviewsDAO {
 
   static async fetchMovieDetails(movieId) {
     const apiKey = "your_tmdb_api_key";
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`);
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=b0d86c7e479ae6e66b1d9e00dd61cc74}`);
     return await response.json();
   }
 
